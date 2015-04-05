@@ -35,7 +35,7 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
     describe('Pattern description', function () {
         it('should take duration into account: if c is an atom of duration 2, it is displayed as "c ^"', function () {
             var pat = new Pattern('atom', 'c');
-            pat.atomDuration = 2;
+            pat.sustain = 2;
             pat.toString().should.equal('c ^');
         });
     });
@@ -80,6 +80,12 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
                 new Pattern('seq', c, e, g, c)
             ).flatten();
             flat.toString().should.equal('[c ^ ^ ^ e ^ ^ ^ g ^ ^ ^, c ^ ^ e ^ ^ g ^ ^ c ^ ^]');
+        });
+
+        it('should use sustain to adjust pattern lengths: C with sustain 2 => [c ^, e ^, g ^]', function () {
+            var sustainedC = _.clone(C);
+            sustainedC.sustain = 2;
+            sustainedC.flatten().toString().should.equal('[c ^, e ^, g ^]');
         });
     });
 
