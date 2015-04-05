@@ -71,7 +71,6 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
             var flat = new Pattern('sum', new Pattern('seq', c, e, g), c).flatten();
             flat.toString().should.equal('[c e g, c ^ ^]');
             flat.duration().should.equal(3);
-            // [c e g, c e g c] => [c ^ ^ ^ e ^ ^ ^ g ^ ^ ^, c ^ ^ e ^ ^ g ^ ^ c ^ ^]
         });
 
         it('should make summed patterns the same length: [c e g, c e g c] => [c ^ ^ ^ e ^ ^ ^ g ^ ^ ^, c ^ ^ e ^ ^ g ^ ^ c ^ ^]', function () {

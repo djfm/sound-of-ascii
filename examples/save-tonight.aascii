@@ -1,0 +1,44 @@
+# Save tonight
+
+# A line starting with a # is a comment, it is ignored by the parser
+
+# Define our chords
+# the square brackets and comma notation means, play all notes at the same time
+# by convention, a single note is written in lowercase and notes are predefined
+
+Am = [a, c, e]
+F  = [f, a, c]
+C  = [c, e, g]
+G  = [g, b, d]
+
+
+# Now we define our measures
+# The ^ special character means,
+# let the thing immediately preceding ring for this unit of time
+
+Am_Measure = Am ^ Am Am ^ Am Am Am
+F_Measure  = F ^ F F ^ F F F
+C_Measure  = C ^ C C ^ C C C
+G_Measure  = G ^ G G ^ G G G
+
+# This song doesn't really have a verse or chorus,
+# so we just define a part
+
+Part = Am_Measure F_Measure C_Measure G_Measure
+
+# Now, our song is just a sequence of the parts repeated a bunch of times
+
+Song = Part Part Part Part Part Part Part Part Part Part Part Part
+
+# Now we must tell the engine what to play,
+# think of it as the Start symbol of our grammar!
+
+@song = Song
+
+# Notice we did not specify anything about timing,
+# so to produce something usefull we will tell the engine
+# how long (in seconds) one of our measures should last.
+# The engine will deduce from it the time value of the smallest unit
+# and build the rest from there.
+
+@duration(AmMeasure) = 4 #seconds
