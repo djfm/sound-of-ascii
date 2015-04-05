@@ -1,0 +1,27 @@
+#C is defined as the superposition of patterns c, e, and g
+C => [c, e, g]
+
+#G is defined as the superposition of patterns g, d, b
+G => [g, d, b]
+
+#Arp takes a list of patterns and transforms it into a sequence
+(Arp l m h) => l ^ h m l ^ h m
+
+#BassArp takes a list of patterns and transforms it into a sequence
+(BassArp l m h) => [l ^ h m l ^ h m, l]
+
+@measure
+'C => (Arp C)
+'G => (BassArp G)
+
+#'C => c ^ g e c ^ g e
+#'G => [g ^ b d g ^ b d, l ^ ^ ^ ^ ^ ^ ^]
+
+'Cs => 'C 'C 'C 'C
+'Gs => 'G 'G 'G 'G
+#'Gs => [
+    g ^ b d g ^ b d g ^ b d g ^ b d g ^ b d g ^ b d g ^ b d g ^ b d,
+    l ^ ^ ^ ^ ^ ^ ^ l ^ ^ ^ ^ ^ ^ ^ l ^ ^ ^ ^ ^ ^ ^ l ^ ^ ^ ^ ^ ^ ^
+]
+
+Song = ('Cs 'Gs) * 4
