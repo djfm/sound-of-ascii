@@ -53,5 +53,9 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             ;
             chai.expect(generator.getAtomDuration).to.throw();
         });
+
+        it('should yell if no duration is declared', function () {
+            chai.expect(generator.getAtomDuration).to.throw();
+        });
     });
 });
