@@ -20,5 +20,3 @@ requirejs.config({
 requirejs(['jquery', 'backbone', 'lib/dummy'], function ($) {
     console.log($);
 });
-
-// TODO: IDEA: Use git for storage!!!

@@ -35,19 +35,19 @@ define(['underscore', 'lib/parser'], function (_, parser) {
                     value: [{
                         type: 'seq',
                         value: [{
-                            type: 'atom',
+                            type: 'ref',
                             value: 'a'
                         }]
                     },{
                         type: 'seq',
                         value: [{
-                            type: 'atom',
+                            type: 'ref',
                             value: 'c'
                         }]
                     },{
                         type: 'seq',
                         value: [{
-                            type: 'atom',
+                            type: 'ref',
                             value: 'e'
                         }]
                     }]
@@ -62,13 +62,13 @@ define(['underscore', 'lib/parser'], function (_, parser) {
             parsed.rhs.should.deep.equal({
                 type: 'seq',
                 value: [{
-                    type: 'atom',
+                    type: 'ref',
                     value: 'a'
                 },{
-                    type: 'atom',
+                    type: 'ref',
                     value: 'c'
                 },{
-                    type: 'atom',
+                    type: 'ref',
                     value: 'e'
                 }]
             });
