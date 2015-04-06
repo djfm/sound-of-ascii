@@ -10,6 +10,21 @@ define(['underscore', 'lib/parser'], function (_, parser) {
             });
         });
 
+        it('should parse a directive like: @song = Song', function () {
+            var parsed = parser.parseLine('@song = Song');
+            parsed.type.should.equal('directive');
+            parsed.name.should.equal('song');
+            parsed.value.should.equal('Song');
+        });
+
+        it('should parse a directive with arguments like: @duration(AmMeasure) = 4', function () {
+            var parsed = parser.parseLine('@duration(AmMeasure) = 4');
+            parsed.type.should.equal('directive');
+            parsed.name.should.equal('duration');
+            parsed.value.should.equal('4');
+            parsed.arguments.should.deep.equal(['AmMeasure']);
+        });
+
         it('should parse a pattern definition like: Am = [a, c, e]', function () {
             _.each(['Am = [a, c, e]', '  Am=[a, c, e]'], function (line) {
                 var parsed = parser.parseLine(line);
