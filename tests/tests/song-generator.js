@@ -35,5 +35,23 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
         it('should yell if asked which is the @song pattern when undefined', function () {
             chai.expect(generator.getSongPatternName).to.throw();
         });
+
+        it('should deduce the duration of an atom thanks to the @duration directive', function () {
+            generator
+                .addLine('Am = [a, c, e]')
+                .addLine('@duration(Am) = 4')
+            ;
+            generator.getAtomDuration().should.equal(4);
+        });
+
+        it('should yell if conflicting durations are declared', function () {
+            generator
+                .addLine('Am = [a, c, e]')
+                .addLine('C = [c, e, g]')
+                .addLine('@duration(Am) = 4')
+                .addLine('@duration(C) = 2')
+            ;
+            chai.expect(generator.getAtomDuration).to.throw();
+        });
     });
 });
