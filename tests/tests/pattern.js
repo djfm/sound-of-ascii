@@ -61,6 +61,11 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
             pat.flatten().toString().should.equal('[c, e, g, c, e, g]');
         });
 
+        it('[c, e g]=> [c ^, e g]', function () {
+            var pat = new Pattern('sum', c, new Pattern('seq', e, g));
+            pat.flatten().toString().should.equal('[c ^, e g]');
+        });
+
         it('should flatten a seq of sums: [c, e, g] [c, e, g] => [c c, e e, g g]', function () {
             var flat = CC.flatten();
             flat.duration().should.equal(2);

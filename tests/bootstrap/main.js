@@ -26,7 +26,7 @@ requirejs(['chai', 'mocha'], function (chai) {
     chai.should();
     mocha.setup('bdd');
 
-    requirejs(['tests/pattern'], function () {
+    requirejs(['tests/pattern', 'tests/parser'], function () {
         mocha.run();
     });
 });
