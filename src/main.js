@@ -2,10 +2,14 @@
 
 requirejs.config({
     paths: {
+        src: '.',
         lib: '../lib',
+        views: '../views',
+        templates: '../views/templates',
         jquery: '../vendor/jquery',
         backbone: '../vendor/backbone',
-        underscore: '../vendor/underscore'
+        underscore: '../vendor/underscore',
+        jadeEngine: '../node_modules/jade/jade'
     },
     map: {
         '*': {
@@ -17,6 +21,6 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', 'backbone', 'lib/dummy'], function ($) {
-    console.log($);
+requirejs(['src/router'], function (router) {
+    router.start();
 });
