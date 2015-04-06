@@ -4,6 +4,8 @@
   "description": "",
   "dependencies": {
     "mocha": "~2.2.1",
-    "chai": "~2.2.0"
+    "chai": "~2.2.0",
+    "jade": "~1.9.2",
+    "express": "~4.12.3"
   }
 }
