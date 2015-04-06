@@ -19,11 +19,26 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator.buildPattern('Am').flatten().toString().should.equal('[a, c, e]');
         });
 
+        it('should understand sustain (atom case): Am = a ^', function () {
+            generator.addLine('Am = a ^');
+            generator.buildPattern('Am').flatten().toString().should.equal('[a ^]');
+        });
+
+        it('should understand sustain (indirect case): `Am = [a, c, e]` `Twice = Am ^`', function () {
+            generator.addSource('Am = [a, c, e]\nTwice = Am ^');
+            generator.buildPattern('Twice').flatten().toString().should.equal('[a ^, c ^, e ^]');
+        });
+
         it('should understand a more complex pattern definition like: `Am = [a, c, e]` `Twice = Am Am`', function () {
             generator
                 .addLine('Am = [a, c, e]')
                 .addLine('Twice = Am Am')
             ;
+            generator.buildPattern('Twice').flatten().toString().should.equal('[a a, c c, e e]');
+        });
+
+        it('should understand a multiline input', function () {
+            generator.addSource('Am = [a, c, e]\nTwice = Am Am');
             generator.buildPattern('Twice').flatten().toString().should.equal('[a a, c c, e e]');
         });
 

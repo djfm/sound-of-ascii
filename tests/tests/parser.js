@@ -2,6 +2,13 @@
 
 define(['underscore', 'lib/parser'], function (_, parser) {
     describe('The parser', function () {
+
+        it('should just ignore an empty line', function () {
+            parser.parseLine('').should.deep.equal({
+                type: 'noop'
+            });
+        });
+
         it('should parse a comment', function () {
             _.each(['#hello', '  #hello', ' # hello'], function (line) {
                 var parsed = parser.parseLine(line);
@@ -36,23 +43,36 @@ define(['underscore', 'lib/parser'], function (_, parser) {
                         type: 'seq',
                         value: [{
                             type: 'ref',
-                            value: 'a'
-                        }]
+                            value: 'a',
+                            sustain: 1
+                        }],
+                        sustain: 1
                     },{
                         type: 'seq',
                         value: [{
                             type: 'ref',
-                            value: 'c'
-                        }]
+                            value: 'c',
+                            sustain: 1
+                        }],
+                        sustain: 1
                     },{
                         type: 'seq',
                         value: [{
                             type: 'ref',
-                            value: 'e'
-                        }]
-                    }]
+                            value: 'e',
+                            sustain: 1
+                        }],
+                        sustain: 1
+                    }],
+                    sustain: 1
                 });
             });
+        });
+
+        it('should understand the `sustain` special char: Am = a ^', function () {
+            var parsed = parser.parseLine('Am = a ^');
+            parsed.rhs.value.length.should.equal(1);
+            parsed.rhs.value[0].sustain.should.equal(2);
         });
 
         it('should parse a pattern definition like: Am = a c e', function () {
@@ -63,14 +83,18 @@ define(['underscore', 'lib/parser'], function (_, parser) {
                 type: 'seq',
                 value: [{
                     type: 'ref',
-                    value: 'a'
+                    value: 'a',
+                    sustain: 1
                 },{
                     type: 'ref',
-                    value: 'c'
+                    value: 'c',
+                    sustain: 1
                 },{
                     type: 'ref',
-                    value: 'e'
-                }]
+                    value: 'e',
+                    sustain: 1
+                }],
+                sustain: 1
             });
             parser.unParseLine(parsed).should.equal('Am = a c e');
         });
