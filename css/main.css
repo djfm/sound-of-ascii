@@ -1,5 +1,6 @@
 .editor textarea.source-code {
     min-height: 400px;
+    font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
 
 .editor .error-feedback {
