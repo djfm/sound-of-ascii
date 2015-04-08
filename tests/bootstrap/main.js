@@ -26,7 +26,7 @@ requirejs(['chai', 'mocha'], function (chai) {
     chai.should();
     mocha.setup('bdd');
 
-    requirejs(['tests/pattern', 'tests/parser', 'tests/song-generator'], function () {
+    requirejs(['tests/pattern', 'tests/parser', 'tests/song-generator', 'tests/song', 'tests/solfege'], function () {
         mocha.run();
     });
 });
