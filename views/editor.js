@@ -19,7 +19,7 @@ define([
             }
         },
         onSourceChanged: function onSourceChanged (text) {
-            this.songGenerator = songGenerator();
+            this.songGenerator = new songGenerator.SongGenerator();
             try {
                 this.songGenerator.addSource(text);
                 var song = this.songGenerator.buildPattern(

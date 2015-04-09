@@ -5,7 +5,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
     var generator;
 
     beforeEach(function () {
-        generator = songGenerator();
+        generator = new songGenerator.SongGenerator();
     });
 
     describe('The Song Generator', function () {
