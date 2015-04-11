@@ -17,4 +17,4 @@ Song = Verse Chorus Verse Chorus
 
 @song = Song
 
-@duration(AmMeasure) = 4
+@duration(Am_Measure) = 4
