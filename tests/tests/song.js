@@ -17,10 +17,12 @@ define(['lib/pattern', 'lib/song', 'chai'], function (patternLib, songLib, chai)
         it('should be made of tracks that contain degrees, that contain slots, that contain notes... phew :)', function () {
             var song = new Song(new Pattern('atom', 'g#4'));
             song.tracks.length.should.equal(1);
+            song.tracks[0].degrees[0].slots[0].duration().should.equal(1);
             song.tracks[0].degrees[0].slots[0].notes[0].should.include({
                 name: 'g#4',
                 value: 56,
-                freq: 415.36
+                freq: 415.36,
+                duration: 1
             });
         });
     });

@@ -7,3 +7,26 @@
     min-height: 30px;
     color: red;
 }
+
+div.compiled-song {
+    overflow-x: scroll;
+}
+
+.compiled-song .degree {
+    white-space: nowrap;
+}
+
+div.compiled-song span.fill {
+    display: inline-block;
+    width: 5px;
+}
+
+.compiled-song .degree-name {
+    width: 30px;
+    display: inline-block;
+}
+
+div.compiled-song span.slot {
+    box-shadow:0px 0px 0px 1px #333 inset;
+    background-color: #cfc;
+}

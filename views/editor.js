@@ -3,11 +3,33 @@
 define([
         'views/view',
         'jade!templates/editor',
-        'lib/song-generator'
-    ], function (View, template, songGenerator) {
+        'jade!templates/song',
+        'lib/song-generator',
+        'lib/audio/player',
+        'lib/song'
+    ], function (View, template, songTemplate, songGenerator, playerLib, songLib) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
+
+            // this.testStuff();
+
+        },
+        testStuff: function testStuff () {
+            var player = new playerLib.Player();
+            var ac = player.getAudioContext();
+            var osc = ac.createOscillator();
+            osc.frequency = 440;
+            osc.type = 'sine';
+
+            var stream = ac.createMediaStreamDestination();
+
+            osc.connect(stream);
+            osc.start(0);
+            osc.stop(5);
+            osc.onended = function () {
+                console.log('done');
+            };
         },
         events: {
             'keyup .source-code': function onEditorTextareaKeyup (e) {
@@ -22,9 +44,10 @@ define([
             this.songGenerator = new songGenerator.SongGenerator();
             try {
                 this.songGenerator.addSource(text);
-                var song = this.songGenerator.buildPattern(
+                var songPattern = this.songGenerator.buildPattern(
                     this.songGenerator.getSongPatternName()
                 );
+                var song = new songLib.Song(songPattern);
                 this.displayCompiledSong(song);
                 this.errorFeedback(null); // clear previous errors
             } catch (e) {
@@ -39,12 +62,14 @@ define([
                 this.$('.error-feedback').html('<div>' + message + '</div>');
             }
         },
-        displayCompiledSong: function displayCompiledSong (songPattern) {
-            if (!songPattern) {
-                this.$('.compiled-song').html('');
+        displayCompiledSong: function displayCompiledSong (song) {
+            console.log(song);
+            if (!song) {
+                this.$('.compiled-song-root').html('');
             } else {
-                var text = songPattern.flatten().toString();
-                this.$('.compiled-song').html(text);
+                this.$('.compiled-song-root').html(songTemplate({
+                    song: song
+                }));
             }
         }
     });
