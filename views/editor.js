@@ -6,30 +6,12 @@ define([
         'jade!templates/song',
         'lib/song-generator',
         'lib/audio/player',
+        'views/player',
         'lib/song'
-    ], function (View, template, songTemplate, songGenerator, playerLib, songLib) {
+    ], function (View, template, songTemplate, songGenerator, playerLib, PlayerView, songLib) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
-
-            // this.testStuff();
-
-        },
-        testStuff: function testStuff () {
-            var player = new playerLib.Player();
-            var ac = player.getAudioContext();
-            var osc = ac.createOscillator();
-            osc.frequency = 440;
-            osc.type = 'sine';
-
-            var stream = ac.createMediaStreamDestination();
-
-            osc.connect(stream);
-            osc.start(0);
-            osc.stop(5);
-            osc.onended = function () {
-                console.log('done');
-            };
         },
         events: {
             'keyup .source-code': function onEditorTextareaKeyup (e) {
@@ -47,12 +29,12 @@ define([
                 var songPattern = this.songGenerator.buildPattern(
                     this.songGenerator.getSongPatternName()
                 );
-                var song = new songLib.Song(songPattern);
-                this.displayCompiledSong(song);
+                var song = new songLib.Song(songPattern, this.songGenerator.getAtomDuration());
+                this.onSongCompiled(song);
                 this.errorFeedback(null); // clear previous errors
             } catch (e) {
                 this.errorFeedback(e);
-                this.displayCompiledSong(null); // clear previous result
+                this.onSongCompiled(null); // clear previous result
             }
         },
         errorFeedback: function errorFeedback (message) {
@@ -62,11 +44,17 @@ define([
                 this.$('.error-feedback').html('<div>' + message + '</div>');
             }
         },
-        displayCompiledSong: function displayCompiledSong (song) {
-            console.log(song);
+        onSongCompiled: function onSongCompiled (song) {
             if (!song) {
                 this.$('.compiled-song-root').html('');
+                this.$('.player-root').html('');
             } else {
+                this.playerView = new PlayerView({
+                    el: this.$('.player-root'),
+                });
+                this.playerView.song = song;
+                this.playerView.render();
+
                 this.$('.compiled-song-root').html(songTemplate({
                     song: song
                 }));

@@ -53,10 +53,10 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
 
         it('should deduce the duration of an atom thanks to the @duration directive', function () {
             generator
-                .addLine('Am = [a, c, e]')
+                .addLine('Am = a b c d')
                 .addLine('@duration(Am) = 4')
             ;
-            generator.getAtomDuration().should.equal(4);
+            generator.getAtomDuration().should.equal(1);
         });
 
         it('should yell if conflicting durations are declared', function () {
