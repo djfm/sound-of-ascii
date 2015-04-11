@@ -56,6 +56,20 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
             flat.toString().should.equal('[c, e, g]');
         });
 
+        it('should add empty lines when number of tracks of two consecutive patterns differ: g [c, e] => [g c, . e] and [c, e] g => [c g, e .]', function () {
+            var pat = new Pattern('seq',
+                g,
+                new Pattern('sum', c, e)
+            );
+            pat.flatten().toString().should.equal('[g c, . e]');
+
+            var pat = new Pattern('seq',
+                new Pattern('sum', c, e),
+                g
+            );
+            pat.flatten().toString().should.equal('[c g, e .]');
+        });
+
         it('[[c, e, g], [c, e, g]] => [c, e, g, c, e, g]', function () {
             var pat = new Pattern('sum', C, C);
             pat.flatten().toString().should.equal('[c, e, g, c, e, g]');

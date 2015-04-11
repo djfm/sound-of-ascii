@@ -1,0 +1,20 @@
+# Work in progress
+
+Am = [a, c, e]
+F  = [f, a, c]
+C  = [c, e, g]
+G  = [g, b, d]
+
+Am_Measure = Am ^ Am Am ^ Am Am Am
+F_Measure  = F ^ F F ^ F F F
+C_Measure  = C ^ C C ^ C C C
+G_Measure  = G ^ G G ^ G G G
+
+Verse = Am_Measure F_Measure C_Measure G_Measure
+Chorus = [Verse, a f c g]
+
+Song = Verse Chorus Verse Chorus
+
+@song = Song
+
+@duration(Am_Measure) = 4

@@ -1,0 +1,16 @@
+.compiled-song
+    each track in song.tracks
+        .track
+            each degree in track.degrees
+                .degree
+                    span.degree-name= degree.name
+                    each slot in degree.slots
+                        - var o = 0
+                        while o < slot.tOffset
+                            span.fill &nbsp;
+                            - o++
+                        span.slot(class=(slot.tOffset > 0 || slot.tStart === 0) ? 'end-of-silence' : '')
+                            - var n = 0
+                            while n < slot.duration()
+                                span.fill &nbsp;
+                                - n++

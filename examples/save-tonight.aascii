@@ -41,4 +41,4 @@ Song = Part Part Part Part Part Part Part Part Part Part Part Part
 # The engine will deduce from it the time value of the smallest unit
 # and build the rest from there.
 
-@duration(AmMeasure) = 4
+@duration(Am_Measure) = 4
