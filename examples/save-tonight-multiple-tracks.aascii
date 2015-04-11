@@ -13,7 +13,7 @@ G_Measure  = G ^ G G ^ G G G
 Verse = Am_Measure F_Measure C_Measure G_Measure
 Chorus = [Verse, a f c g]
 
-Song = Verse Chorus
+Song = Verse Chorus Verse Chorus
 
 @song = Song
 
