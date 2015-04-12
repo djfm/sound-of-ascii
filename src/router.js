@@ -1,10 +1,11 @@
 /* global define */
 
-define(['jquery', 'backbone', 'views/home'], function ($, bb, HomeView) {
+define(['jquery', 'backbone', 'views/home', 'src/scratch'], function ($, bb, HomeView, scratch) {
 
     var Router = bb.Router.extend({
         routes: {
-            '': 'home'
+            '': 'home',
+            'scratch': scratch()
         },
         home: function () {
             var homeView = new HomeView();
