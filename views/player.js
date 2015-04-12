@@ -9,12 +9,27 @@ define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player',
             return {};
         },
         events: {
-            'click .play-button': 'play'
+            'click .play-button': 'play',
+            'click .stop-button': 'stop'
+        },
+        reset: function resetPlayerView () {
+            if (this.player) {
+                // release resources
+                this.player.reset();
+            } else {
+                this.player = new audio.Player();
+            }
         },
         play: function play () {
-            var player = new audio.Player();
 
-            var ac = player.getAudioContext();
+            this.reset();
+
+            var ac = this.player.getAudioContext();
+
+            var gain = ac.createGain();
+            gain.gain.value = 0.5;
+
+            gain.connect(ac.destination);
 
             var instrument = new Oscii();
 
@@ -22,8 +37,14 @@ define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player',
                 note = _.clone(note);
                 note.freq = Math.pow(2, 4) * note.freq;
                 var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
-                instrument.playNote(ac, ac.destination, note, start, stop);
+                instrument.playNote(ac, gain, note, start, stop);
             });
+
+            this.$('.stop-button').attr('disabled', false);
+        },
+        stop: function stop () {
+            this.reset();
+            this.$('.stop-button').attr('disabled', true);
         }
     });
 });

@@ -45,16 +45,21 @@ define([
             }
         },
         onSongCompiled: function onSongCompiled (song) {
-            if (!song) {
-                this.$('.compiled-song-root').html('');
-                this.$('.player-root').html('');
+
+            if (this.playerView) {
+                this.playerView.reset();
             } else {
                 this.playerView = new PlayerView({
                     el: this.$('.player-root'),
                 });
+            }
+
+            if (!song) {
+                this.$('.compiled-song-root').html('');
+                this.$('.player-root').html('');
+            } else {
                 this.playerView.song = song;
                 this.playerView.render();
-
                 this.$('.compiled-song-root').html(songTemplate({
                     song: song
                 }));
