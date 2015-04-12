@@ -12,7 +12,6 @@ define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player',
             'click .play-button': 'play'
         },
         play: function play () {
-
             var player = new audio.Player();
 
             var ac = player.getAudioContext();
