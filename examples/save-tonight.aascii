@@ -36,7 +36,7 @@ Song = Part Part Part Part Part Part Part Part Part Part Part Part
 @song = Song
 
 # Notice we did not specify anything about timing,
-# so to produce something usefull we will tell the engine
+# so to produce something useful we will tell the engine
 # how long (in seconds) one of our measures should last.
 # The engine will deduce from it the time value of the smallest unit
 # and build the rest from there.
