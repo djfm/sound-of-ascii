@@ -1,0 +1,17 @@
+Am = [a, c, e]
+F  = [f, a, c]
+C  = [c, e, g]
+G  = [g, b, d]
+
+AmMeasure = Am ^ Am Am ^ Am ^ ^
+FMeasure  = F ^ F F ^ F F F
+CMeasure = C C C ^ C C C C
+GMeasure = G ^ G G G ^ G ^
+
+Verse = AmMeasure FMeasure CMeasure GMeasure
+Chorus = [Verse, a c g]
+
+Song = Chorus Chorus Chorus Chorus
+
+@song = Song
+@duration(AmMeasure) = 1

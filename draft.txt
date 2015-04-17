@@ -1,0 +1,19 @@
+Rules:
+S = E
+
+E = Seq
+E = Sum
+
+Seq = atom
+Seq = Seq atom
+Seq = Seq Sum
+Seq =
+
+(Sum atom, atom Sum,)
+
+Sum = [ CSV ]
+CSV = Sum
+CSV = Seq
+CSV = Sum , CSV
+CSV = Seq , CSV
+CSV = Atom , CSV
