@@ -104,7 +104,7 @@ define(['underscore', 'lib/parser'], function (_, parser) {
             'SomeSeq = Hello World',
             'Am_Measure = Am ^ Am Am ^ Am Am Am',
             'Part = Am_Measure F_Measure C_Measure G_Measure',
-            'Tricky = [[a,c] [f,a] [c,e] [g,b], a c g]'
+            'Tricky = [[a, c] [f, a c] [c, e] [g, b], a c g]'
         ];
         _.each(otherExamples, function (example) {
             it('should parse this line: ' + example, function () {
