@@ -8,6 +8,5 @@
 
 define([], function () {
     return function scratch () {
-        console.log("hi");
     };
 });

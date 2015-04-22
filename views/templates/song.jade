@@ -9,7 +9,7 @@
                         while o < slot.tOffset
                             span.fill &nbsp;
                             - o++
-                        span.slot(class=(slot.tOffset > 0 || slot.tStart === 0) ? 'end-of-silence' : '')
+                        span.slot
                             - var n = 0
                             while n < slot.duration()
                                 span.fill &nbsp;

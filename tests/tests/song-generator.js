@@ -39,6 +39,20 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
                      .toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
         });
 
+        it('should compute resolutions when building sums', function () {
+            var pat = generator.addSource('A = [a]\nTwice = A ^').buildPattern('Twice');
+
+            var flat = pat.flatten();
+            flat.toString().should.equal('[a ^]');
+            flat.duration().should.equal(2);
+            flat.resolution.should.equal(1);
+        });
+
+        it('should preserve timing in sequences: Chorus = b [a ^, x y z]', function () {
+            generator.addSource('Chorus = b [a ^, x y z]').buildPattern('Chorus').flatten()
+                     .toString().should.equal('[b ^ ^ a ^ ^ ^ ^ ^, . ^ ^ x ^ y ^ z ^]');
+        });
+
         it('should understand a more complex pattern definition like: `Am = [a, c, e]` `Twice = Am Am`', function () {
             generator
                 .addLine('Am = [a, c, e]')

@@ -9,9 +9,9 @@ CMeasure  = C  C C  ^  C C  C C
 GMeasure  = G  ^ G  G  G ^  G ^
 
 Verse = AmMeasure FMeasure CMeasure GMeasure
-Chorus = [Verse, a c g]
+Chorus = [Verse, a0 c0 g0]
 
-Song = Chorus Chorus Chorus Chorus
+Song = Verse Chorus
 
 @song = Song
 @duration(AmMeasure) = 1
