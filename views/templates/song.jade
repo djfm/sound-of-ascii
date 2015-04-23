@@ -1,6 +1,7 @@
 .compiled-song
     each track in song.tracks
         .track
+            h3= track.name
             each degree in track.degrees
                 .degree
                     span.degree-name= degree.name

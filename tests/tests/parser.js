@@ -39,28 +39,35 @@ define(['underscore', 'lib/parser'], function (_, parser) {
                 parsed.lhs.should.equal('Am');
                 parsed.rhs.should.deep.equal({
                     type: 'sum',
+                    trackName: null,
                     value: [{
                         type: 'seq',
+                        trackName: null,
                         value: [{
                             type: 'ref',
                             value: 'a',
-                            sustain: 1
+                            sustain: 1,
+                            trackName: null
                         }],
                         sustain: 1
                     },{
                         type: 'seq',
+                        trackName: null,
                         value: [{
                             type: 'ref',
                             value: 'c',
-                            sustain: 1
+                            sustain: 1,
+                            trackName: null
                         }],
                         sustain: 1
                     },{
                         type: 'seq',
+                        trackName: null,
                         value: [{
                             type: 'ref',
                             value: 'e',
-                            sustain: 1
+                            sustain: 1,
+                            trackName: null
                         }],
                         sustain: 1
                     }],
@@ -81,18 +88,22 @@ define(['underscore', 'lib/parser'], function (_, parser) {
             parsed.lhs.should.equal('Am');
             parsed.rhs.should.deep.equal({
                 type: 'seq',
+                trackName: null,
                 value: [{
                     type: 'ref',
                     value: 'a',
-                    sustain: 1
+                    sustain: 1,
+                    trackName: null
                 },{
                     type: 'ref',
                     value: 'c',
-                    sustain: 1
+                    sustain: 1,
+                    trackName: null
                 },{
                     type: 'ref',
                     value: 'e',
-                    sustain: 1
+                    sustain: 1,
+                    trackName: null
                 }],
                 sustain: 1
             });
@@ -101,6 +112,7 @@ define(['underscore', 'lib/parser'], function (_, parser) {
 
         var otherExamples = [
             'Am = [a, c e]',
+            'D/F# = [f#, a1, d1]',
             'SomeSeq = Hello World',
             'Am_Measure = Am ^ Am Am ^ Am Am Am',
             'Part = Am_Measure F_Measure C_Measure G_Measure',

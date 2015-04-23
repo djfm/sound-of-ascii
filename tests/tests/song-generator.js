@@ -66,6 +66,31 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator.buildPattern('Twice').flatten().toString().should.equal('[a a, c c, e e]');
         });
 
+        it('should allow multiple tracks to be defined', function () {
+            generator
+                .addSource('Am = [a, c, e]')
+                .addSource('XX = [:instrument a c e, Am]')
+                .addSource('@duration(Am) = 4')
+                .addSource('@song = XX')
+            ;
+
+            var song = generator.buildSong();
+            song.tracks.length.should.equal(2);
+            song.tracks[0].name.should.equal('instrument');
+        });
+
+        it('should allow multiple tracks to be defined - track should propagate', function () {
+            generator
+                .addSource('Am = [a, c, e]')
+                .addSource('XX = [Am, :instrument Am]')
+                .addSource('@duration(Am) = 4')
+                .addSource('@song = XX')
+            ;
+            var song = generator.buildSong();
+            song.tracks.length.should.equal(2);
+            song.tracks[1].name.should.equal('instrument');
+        });
+
         it('should tell me which is the @song pattern when defined', function () {
             generator.addLine('@song = TheSongPattern');
             generator.getSongPatternName().should.equal('TheSongPattern');
@@ -79,6 +104,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator
                 .addLine('Am = a b c d')
                 .addLine('@duration(Am) = 4')
+                .addLine('@song = Am')
             ;
             generator.getAtomDuration().should.equal(1);
         });
