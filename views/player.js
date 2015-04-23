@@ -1,6 +1,12 @@
 /* global define */
 
-define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player', 'lib/instruments/oscii'], function (_, View, template, audio, Oscii) {
+define([
+    'underscore',
+    'views/view',
+    'jade!templates/player',
+    'lib/audio/player',
+    'lib/audio/instrument-loader'
+], function (_, View, template, audio, instrumentLoader) {
     return View.extend({
         initialize: function initializePlayerView () {
             this.template = template;
@@ -31,13 +37,11 @@ define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player',
 
             gain.connect(ac.destination);
 
-            var instrument = new Oscii();
-
             this.song.forEachNote(function (note, unitOfTime, instrumentName) {
                 note = _.clone(note);
                 note.freq = Math.pow(2, 4) * note.freq;
                 var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
-                instrument.playNote(ac, gain, note, start, stop);
+                instrumentLoader.get(instrumentName).playNote(ac, gain, note, start, stop);
             });
 
             this.$('.stop-button').attr('disabled', false);
