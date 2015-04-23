@@ -33,7 +33,7 @@ define(['underscore', 'views/view', 'jade!templates/player', 'lib/audio/player',
 
             var instrument = new Oscii();
 
-            this.song.forEachNote(function (note, unitOfTime) {
+            this.song.forEachNote(function (note, unitOfTime, instrumentName) {
                 note = _.clone(note);
                 note.freq = Math.pow(2, 4) * note.freq;
                 var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
