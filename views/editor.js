@@ -26,7 +26,7 @@ define([
             this.songGenerator = new songGenerator.SongGenerator();
             try {
                 this.songGenerator.addSource(text);
-                var song = this.songGenenerator.buildSong();
+                var song = this.songGenerator.buildSong();
                 this.onSongCompiled(song);
                 this.errorFeedback(null); // clear previous errors
             } catch (e) {
