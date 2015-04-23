@@ -1,0 +1,24 @@
+Am = [a1, c1, e1]
+D/F# = [f#, a1, d1]
+Em = [e, g, b1]
+G = [g, b1, d1]
+F = [f, a1, c1]
+D = [d, f#, a1]
+C = [c, e, g]
+C/B = [b, e, g]
+E7 = [e, g#, b1, d1]
+Bm = [b, d, f#]
+
+Am' = [. , Am ^ Am Am]
+D/F#' = [. , D/F# ^ D/F# D/F#]
+Bm' = [. , Bm ^ Bm Bm]
+
+HalfVerse   = Am Am' D/F# D/F#' Em Em G G Am Am' F F Em Em G G Am Am' D D G G C C/B Am Am' Am Am' Bm Bm' D D
+
+Verse = HalfVerse HalfVerse
+
+Song = Verse
+
+
+@song = Song
+@duration(Am) = 0.8
