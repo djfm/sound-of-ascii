@@ -26,10 +26,7 @@ define([
             this.songGenerator = new songGenerator.SongGenerator();
             try {
                 this.songGenerator.addSource(text);
-                var songPattern = this.songGenerator.buildPattern(
-                    this.songGenerator.getSongPatternName()
-                );
-                var song = new songLib.Song(songPattern, this.songGenerator.getAtomDuration());
+                var song = this.songGenenerator.buildSong();
                 this.onSongCompiled(song);
                 this.errorFeedback(null); // clear previous errors
             } catch (e) {
