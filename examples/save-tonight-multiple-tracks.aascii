@@ -11,10 +11,9 @@ C_Measure  = C ^ C C ^ C C C
 G_Measure  = G ^ G G ^ G G G
 
 Verse = Am_Measure F_Measure C_Measure G_Measure
-Chorus = [Verse, :square a f c g]
-
-Song = Verse Chorus Verse Chorus
+Chorus = [Verse, :square [., c1 e1 c1 e1] :square [., f1 a1 f1 a1] :square [., e1 g1 e1 g1] :square [., b1 d1 b1 d1]]
+Song = Verse Chorus Verse Chorus Verse Chorus
 
 @song = Song
 
-@duration(Am_Measure) = 2
+@duration(Am_Measure) = 1
