@@ -37,11 +37,20 @@ define([
 
             gain.connect(ac.destination);
 
-            this.song.forEachNote(function (note, unitOfTime, instrumentName) {
-                note = _.clone(note);
-                note.freq = Math.pow(2, 4) * note.freq;
-                var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
-                instrumentLoader.get(instrumentName).playNote(ac, gain, note, start, stop);
+            var song = this.song;
+            _.each([true, false], function (warmUp) {
+                song.forEachNote(function (note, unitOfTime, instrumentName) {
+                    note = _.clone(note);
+                    note.freq = Math.pow(2, 4) * note.freq;
+                    var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
+                    var instrument = instrumentLoader.get(instrumentName);
+
+                    if (warmUp && instrument.warmUp) {
+                        instrument.warmUp(ac, gain, note, start, stop);
+                    } else if (!warmUp) {
+                        instrument.playNote(ac, gain, note, start, stop);
+                    }
+                });
             });
 
             this.$('.stop-button').attr('disabled', false);
