@@ -3,16 +3,16 @@ F  = [f, a, c, f1]
 C  = [c, e, g, e1]
 G  = [g, b, d, b1]
 
-Am_Measure = :supernova Am ^ Am Am ^ Am Am Am
-F_Measure  = :supernova F ^ F F ^ F F F
-C_Measure  = :supernova C ^ C C ^ C C C
-G_Measure  = :supernova G ^ G G ^ G G G
+Am_Measure = Am ^ Am Am ^ Am Am Am
+F_Measure  = F ^ F F ^ F F F
+C_Measure  = C ^ C C ^ C C C
+G_Measure  = G ^ G G ^ G G G
 
-Verse_A = Am_Measure F_Measure C_Measure G_Measure
+Verse_A = :supernova Am_Measure F_Measure C_Measure G_Measure
 Verse_B = :kick a*4 f*4 c*4 g*4
 Verse = [Verse_A, Verse_B]
 
-Bridge = [Am_Measure*4, :kick a*32]
+Bridge = [:supernova Am_Measure*4, :kick a*32]
 
 Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [., g1 d1 g1 d1]]]
 Song = Verse Chorus Verse Bridge Chorus Verse Chorus
