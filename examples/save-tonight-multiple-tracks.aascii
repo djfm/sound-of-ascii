@@ -1,17 +1,18 @@
-# Work in progress
-
 Am = [a, c, e]
 F  = [f, a, c]
 C  = [c, e, g]
 G  = [g, b, d]
 
-Am_Measure = Am ^ Am Am ^ Am Am Am
-F_Measure  = F ^ F F ^ F F F
-C_Measure  = C ^ C C ^ C C C
-G_Measure  = G ^ G G ^ G G G
+Am_Measure = :supernova Am ^ Am Am ^ Am Am Am
+F_Measure  = :supernova F ^ F F ^ F F F
+C_Measure  = :supernova C ^ C C ^ C C C
+G_Measure  = :supernova G ^ G G ^ G G G
 
-Verse = Am_Measure F_Measure C_Measure G_Measure
-Chorus = [Verse, :square [., c1 e1 c1 e1] :square [., f1 a1 f1 a1] :square [., e1 g1 e1 g1] :square [., b1 d1 b1 d1]]
+Verse_A = Am_Measure F_Measure C_Measure G_Measure
+Verse_B = :kick a a a a f f f f c c c c g g g g
+Verse = [Verse_A, Verse_B]
+
+Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [., g1 d1 g1 d1]]]
 Song = Verse Chorus Verse Chorus Verse Chorus
 
 @song = Song
