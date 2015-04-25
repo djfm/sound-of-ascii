@@ -24,6 +24,11 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator.buildPattern('Am').flatten().toString().should.equal('[a ^]');
         });
 
+        it('should understand repetitions', function () {
+            generator.addLine('Am = a*4');
+            generator.buildPattern('Am').flatten().toString().should.equal('[a a a a]');
+        });
+
         it('should understand sustain (indirect case with chord): `Am = [a, c, e]` `Twice = Am ^`', function () {
             generator.addSource('Am = [a, c, e]\nTwice = Am ^');
             generator.buildPattern('Twice').flatten().toString().should.equal('[a ^, c ^, e ^]');

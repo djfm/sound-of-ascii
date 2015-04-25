@@ -9,15 +9,14 @@ C_Measure  = :supernova C ^ C C ^ C C C
 G_Measure  = :supernova G ^ G G ^ G G G
 
 Verse_A = Am_Measure F_Measure C_Measure G_Measure
-Verse_B = :kick a a a a f f f f c c c c g g g g
+Verse_B = :kick a*4 f*4 c*4 g*4
 Verse = [Verse_A, Verse_B]
 
-Bridge = [Am_Measure Am_Measure Am_Measure Am_Measure, :kick a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a]
+Bridge = [Am_Measure*4, :kick a*32]
 
 Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [., g1 d1 g1 d1]]]
 Song = Verse Chorus Verse Bridge Chorus Verse Chorus
 
-Test = :kick c d e f g a b
 @song = Song
 
 @duration(Am_Measure) = 1
