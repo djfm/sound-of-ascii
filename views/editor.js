@@ -1,6 +1,7 @@
 /* global define */
 
 define([
+        'jquery',
         'views/view',
         'jade!templates/editor',
         'jade!templates/song',
@@ -8,7 +9,7 @@ define([
         'lib/audio/player',
         'views/player',
         'lib/song'
-    ], function (View, template, songTemplate, songGenerator, playerLib, PlayerView, songLib) {
+    ], function ($, View, template, songTemplate, songGenerator, playerLib, PlayerView, songLib) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
@@ -61,6 +62,13 @@ define([
                     song: song
                 }));
             }
+        },
+        afterRender: function loadDefaultSong () {
+            var that = this;
+            $.get('examples/save-tonight-multiple-tracks.aascii').then(function (data) {
+                $('textarea.source-code').val(data);
+                that.onSourceChanged(data);
+            });
         }
     });
 });
