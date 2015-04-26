@@ -8,7 +8,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
         generator = new songGenerator.SongGenerator();
     });
 
-    describe('The Song Generator', function () {
+    xdescribe('The Song Generator', function () {
 
         it('should build atomic patterns', function () {
             generator.buildPattern('a').flatten().toString().should.equal('[a]');
