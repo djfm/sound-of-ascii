@@ -2,6 +2,9 @@
   "name": "sound-of-ascii",
   "version": "0.0.0",
   "description": "",
+  "scripts": {
+      "start": "node server.js"  
+  },
   "dependencies": {
     "mocha": "~2.2.1",
     "chai": "~2.2.0",
