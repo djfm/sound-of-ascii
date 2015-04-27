@@ -41,7 +41,8 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
         });
 
         it('should not mess up sustain in sums: Chorus = [a ^, x y z]', function () {
-            generator.addSource('Chorus = [a ^, x y z]').buildPattern('Chorus')
+            generator.addSource('Chorus = [a ^, x y z]')
+                     .buildPattern('Chorus')
                      .toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
         });
 

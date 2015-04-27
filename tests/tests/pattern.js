@@ -167,5 +167,18 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
             noteThenSum.toString().should.equal('[c g ^, . e ^]');
 
         });
+
+        it('should adjust relative durations', function () {
+            var a2 = new pattern.NotePattern('a');
+            a2.sustain = 2;
+            var x = new pattern.NotePattern('x');
+            var y = new pattern.NotePattern('y');
+            var z = new pattern.NotePattern('z');
+
+            var seq = new pattern.SeqPattern(x, new pattern.SeqPattern(y, z));
+            var sum = new pattern.SumPattern(a2, seq);
+
+            sum.toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
+        });
     });
 });
