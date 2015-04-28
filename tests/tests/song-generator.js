@@ -81,7 +81,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             song.listTrackNames().should.include.members(['master', 'instrument']);
         });
 
-        xit('should allow multiple tracks to be defined - track should propagate', function () {
+        it('should allow multiple tracks to be defined - track should propagate', function () {
             generator
                 .addSource('Am = [a, c, e]')
                 .addSource('XX = [Am, :instrument Am]')
@@ -89,8 +89,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
                 .addSource('@song = XX')
             ;
             var song = generator.buildSong();
-            song.tracks.length.should.equal(2);
-            song.tracks[1].name.should.equal('instrument');
+            song.listTrackNames().should.include.members(['master', 'instrument']);
         });
 
         it('should tell me which is the @song pattern when defined', function () {
