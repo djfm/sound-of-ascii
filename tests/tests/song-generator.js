@@ -69,7 +69,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator.buildPattern('Twice').toString().should.equal('[a a, c c, e e]');
         });
 
-        xit('should allow multiple tracks to be defined', function () {
+        it('should allow multiple tracks to be defined', function () {
             generator
                 .addSource('Am = [a, c, e]')
                 .addSource('XX = [:instrument a c e, Am]')
@@ -78,8 +78,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             ;
 
             var song = generator.buildSong();
-            song.tracks.length.should.equal(2);
-            song.tracks[0].name.should.equal('instrument');
+            song.listTrackNames().should.include.members(['master', 'instrument']);
         });
 
         xit('should allow multiple tracks to be defined - track should propagate', function () {

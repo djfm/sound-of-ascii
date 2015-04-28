@@ -168,7 +168,7 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
 
         });
 
-        it('should adjust relative durations', function () {
+        it('should adjust relative durations when toString is called so that the representation is correct', function () {
             var a2 = new pattern.NotePattern('a');
             a2.sustain = 2;
             var x = new pattern.NotePattern('x');
@@ -179,6 +179,17 @@ define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
             var sum = new pattern.SumPattern(a2, seq);
 
             sum.toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
+        });
+
+        it('should list tracknames', function () {
+            var a = new pattern.NotePattern('a');
+            a.control.trackName = 'some-track';
+            a.listTrackNames().should.deep.equal(['some-track']);
+        });
+
+        it('shoud have a default track called "master"', function () {
+            var a = new pattern.NotePattern('a');
+            a.listTrackNames().should.deep.equal(['master']);
         });
     });
 });
