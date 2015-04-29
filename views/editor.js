@@ -8,7 +8,7 @@ define([
         'lib/audio/player',
         'views/player',
         'lib/song'
-    ], function (View, template, songTemplate, songGenerator, playerLib, PlayerView, songLib) {
+    ], function (View, template, songTemplate, songGenerator, playerLib, PlayerView) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
