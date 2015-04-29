@@ -101,7 +101,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             chai.expect(generator.getSongPatternName).to.throw();
         });
 
-        xit('should deduce the duration of an atom thanks to the @duration directive', function () {
+        it('should deduce the duration of an atom thanks to the @duration directive', function () {
             generator
                 .addLine('Am = a b c d')
                 .addLine('@duration(Am) = 4')
@@ -110,7 +110,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             generator.getAtomDuration().should.equal(1);
         });
 
-        xit('should yell if conflicting durations are declared', function () {
+        it('should yell if conflicting durations are declared', function () {
             generator
                 .addLine('Am = [a, c, e]')
                 .addLine('C = [c, e, g]')
