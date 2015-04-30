@@ -4,12 +4,12 @@ define([
         'jquery',
         'views/view',
         'jade!templates/editor',
-        'jade!templates/song',
+        'views/song',
         'lib/song-generator',
         'lib/audio/player',
         'views/player',
         'lib/song'
-    ], function ($, View, template, songTemplate, songGenerator, playerLib, PlayerView) {
+    ], function ($, View, template, SongView, songGenerator, playerLib, PlayerView) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
@@ -58,9 +58,11 @@ define([
             } else {
                 this.playerView.song = song;
                 this.playerView.render();
-                this.$('.compiled-song-root').html(songTemplate({
-                    song: song
-                }));
+                var songView = new SongView({
+                    el: this.$('.compiled-song-root')
+                });
+                songView.song = song;
+                songView.render();
             }
         },
         afterRender: function loadDefaultSong () {
