@@ -36,14 +36,15 @@ define([
             gain.gain.value = 0.5;
 
             gain.connect(ac.destination);
-
             var song = this.song;
+            var unitOfTime = song.unitOfTime;
+            var absoluteDuration = song.absoluteDuration;
+
             _.each([true, false], function (warmUp) {
-                song.forEachNote(0, song.unitOfTime, song.absoluteDuration, function (sStart, sDuration, note, control) {
+                song.forEachNote(unitOfTime, 0, absoluteDuration, function (sStart, sDuration, note, control) {
                     note = solfege.parseNote(note);
                     note.freq = Math.pow(2, 4) * note.freq;
                     var instrument = instrumentLoader.get(control.trackName);
-
                     if (warmUp && instrument.warmUp) {
                         instrument.warmUp(ac, gain, note, sStart, sStart + sDuration);
                     } else if (!warmUp) {
