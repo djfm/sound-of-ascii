@@ -30,13 +30,10 @@ G  = [g, b, d, b1]
 # patterns one after another.
 # The "^" increases the sustain of the preceding pattern by one unit of time.
 
-Am_Measure = Am ^ Am Am ^ Am Am Am
-F_Measure  = F  ^ F  F  ^ F  F  F
-C_Measure  = C  ^ C  C  ^ C  C  C
-G_Measure  = G  ^ G  G  ^ G  G  G
-
-# All the sequences above have the same rhythm:
-# quarter eight eigth quarter eight eight eight (or for the guitar players reading this: down down up up down up)
+Am_Measure = Am Am Am Am ^ Am Am Am
+F_Measure  = F  ^  F  F  F F  F  F
+C_Measure  = C  ^  C  C  ^ C  C  C
+G_Measure  = G  G  G  G  ^ G  G  G
 
 # Now let's make a verse by combining the four measures
 # and assign an instrument at the same time:
@@ -59,7 +56,7 @@ Verse_B = :kick a*4 f*4 c*4 g*4
 Verse = [Verse_A, Verse_B]
 
 # I'll add a bridge too:
-Bridge = [:supernova Am_Measure*4, :kick a*32]
+Bridge = [:supernova Am*16, :kick a*32]
 
 # And a chorus:
 Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [., g1 d1 g1 d1]]]
