@@ -2,12 +2,13 @@
 
 define([
     'underscore',
+    'q',
     'views/view',
     'jade!templates/player',
     'lib/audio/player',
     'lib/solfege',
     'lib/audio/instrument-loader'
-], function (_, View, template, audio, solfege, instrumentLoader) {
+], function (_, q, View, template, audio, solfege, instrumentLoader) {
     return View.extend({
         initialize: function initializePlayerView () {
             this.template = template;
@@ -36,20 +37,29 @@ define([
             gain.gain.value = 0.5;
 
             gain.connect(ac.destination);
-            var song = this.song;
-            var unitOfTime = song.unitOfTime;
-            var absoluteDuration = song.absoluteDuration;
 
-            _.each([true, false], function (warmUp) {
-                song.forEachNote(unitOfTime, 0, absoluteDuration, function (sStart, sDuration, note, control) {
-                    note = solfege.parseNote(note);
-                    note.freq = Math.pow(2, 4) * note.freq;
+            var withEachNote = (function withEachNote (callback) {
+                this.song.forEachNote(this.song.unitOfTime, 0, this.song.absoluteDuration, function (sStart, sDuration, noteStr, control) {
                     var instrument = instrumentLoader.get(control.trackName);
-                    if (warmUp && instrument.warmUp) {
-                        instrument.warmUp(ac, gain, note, sStart, sStart + sDuration);
-                    } else if (!warmUp) {
-                        instrument.playNote(ac, gain, note, sStart, sStart + sDuration);
+                    var note = solfege.parseNote(noteStr);
+                    if (note.freq > 0) {
+                        note.freq *= 16; // adjust freq by 4 octaves
+                        callback(sStart, sStart + sDuration, note, control, instrument);
                     }
+                });
+            }).bind(this);
+
+            var promises = [];
+
+            withEachNote(function warmUp (sStart, sStop, note, control, instrument) {
+                if (instrument.warmUp) {
+                    promises.push(instrument.warmUp(ac, gain, note, sStart, sStop));
+                }
+            });
+
+            q.all(promises).then(function () {
+                withEachNote(function playNotes (sStart, sStop, note, control, instrument) {
+                    instrument.playNote(ac, gain, note, sStart, sStop);
                 });
             });
 

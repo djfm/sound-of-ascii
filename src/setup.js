@@ -8,6 +8,7 @@ requirejs.config({
         jade: 'src/jade',
         jadeEngine: 'node_modules/jade/jade',
         jquery: 'src/jquery',
+        q: 'node_modules/q/q',
         templates: 'views/templates',
         chai: 'node_modules/chai/chai'
     }
