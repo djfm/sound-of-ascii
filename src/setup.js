@@ -3,8 +3,8 @@
 requirejs.config({
     baseUrl: '/',
     paths: {
-        backbone: 'vendor/backbone',
-        underscore: 'vendor/underscore',
+        backbone: 'node_modules/backbone/backbone-min',
+        underscore: 'node_modules/underscore/underscore-min',
         jade: 'src/jade',
         jadeEngine: 'node_modules/jade/jade',
         jquery: 'src/jquery',
