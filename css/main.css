@@ -9,7 +9,7 @@
 }
 
 div.compiled-song {
-    overflow-x: scroll;
+    overflow: auto;
 }
 
 .compiled-song .degree {

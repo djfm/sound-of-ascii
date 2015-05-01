@@ -5,8 +5,9 @@ define([
     'views/view',
     'jade!templates/player',
     'lib/audio/player',
+    'lib/solfege',
     'lib/audio/instrument-loader'
-], function (_, View, template, audio, instrumentLoader) {
+], function (_, View, template, audio, solfege, instrumentLoader) {
     return View.extend({
         initialize: function initializePlayerView () {
             this.template = template;
@@ -27,7 +28,6 @@ define([
             }
         },
         play: function play () {
-
             this.reset();
 
             var ac = this.player.getAudioContext();
@@ -36,19 +36,19 @@ define([
             gain.gain.value = 0.5;
 
             gain.connect(ac.destination);
-
             var song = this.song;
-            _.each([true, false], function (warmUp) {
-                song.forEachNote(function (note, unitOfTime, instrumentName) {
-                    note = _.clone(note);
-                    note.freq = Math.pow(2, 4) * note.freq;
-                    var start = note.tStart * unitOfTime, stop = (note.tStart + note.duration) * unitOfTime;
-                    var instrument = instrumentLoader.get(instrumentName);
+            var unitOfTime = song.unitOfTime;
+            var absoluteDuration = song.absoluteDuration;
 
+            _.each([true, false], function (warmUp) {
+                song.forEachNote(unitOfTime, 0, absoluteDuration, function (sStart, sDuration, note, control) {
+                    note = solfege.parseNote(note);
+                    note.freq = Math.pow(2, 4) * note.freq;
+                    var instrument = instrumentLoader.get(control.trackName);
                     if (warmUp && instrument.warmUp) {
-                        instrument.warmUp(ac, gain, note, start, stop);
+                        instrument.warmUp(ac, gain, note, sStart, sStart + sDuration);
                     } else if (!warmUp) {
-                        instrument.playNote(ac, gain, note, start, stop);
+                        instrument.playNote(ac, gain, note, sStart, sStart + sDuration);
                     }
                 });
             });

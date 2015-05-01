@@ -11,50 +11,48 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
     describe('The Song Generator', function () {
 
         it('should build atomic patterns', function () {
-            generator.buildPattern('a').flatten().toString().should.equal('[a]');
+            generator.addLine('Am = a');
+            generator.buildPattern('Am').toString().should.equal('[a]');
         });
 
         it('should understand a quasi-terminal pattern definition like: Am = [a, c, e]', function () {
             generator.addLine('Am = [a, c, e]');
-            generator.buildPattern('Am').flatten().toString().should.equal('[a, c, e]');
+            generator.buildPattern('Am').toString().should.equal('[a, c, e]');
         });
 
         it('should understand sustain (atom case): Am = a ^', function () {
             generator.addLine('Am = a ^');
-            generator.buildPattern('Am').flatten().toString().should.equal('[a ^]');
+            generator.buildPattern('Am').toString().should.equal('[a ^]');
         });
 
         it('should understand repetitions', function () {
             generator.addLine('Am = a*4');
-            generator.buildPattern('Am').flatten().toString().should.equal('[a a a a]');
+            generator.buildPattern('Am').toString().should.equal('[a a a a]');
         });
 
         it('should understand sustain (indirect case with chord): `Am = [a, c, e]` `Twice = Am ^`', function () {
             generator.addSource('Am = [a, c, e]\nTwice = Am ^');
-            generator.buildPattern('Twice').flatten().toString().should.equal('[a ^, c ^, e ^]');
+            generator.buildPattern('Twice').toString().should.equal('[a ^, c ^, e ^]');
         });
 
         it('should understand sustain (indirect case with atom): `Am = a` `Twice = Am ^`', function () {
             generator.addSource('Am = a\nTwice = Am ^');
-            generator.buildPattern('Twice').flatten().toString().should.equal('[a ^]');
+            generator.buildPattern('Twice').toString().should.equal('[a ^]');
         });
 
         it('should not mess up sustain in sums: Chorus = [a ^, x y z]', function () {
-            generator.addSource('Chorus = [a ^, x y z]').buildPattern('Chorus').flatten()
+            generator.addSource('Chorus = [a ^, x y z]')
+                     .buildPattern('Chorus')
                      .toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
         });
 
         it('should compute resolutions when building sums', function () {
             var pat = generator.addSource('A = [a]\nTwice = A ^').buildPattern('Twice');
-
-            var flat = pat.flatten();
-            flat.toString().should.equal('[a ^]');
-            flat.duration().should.equal(2);
-            flat.resolution.should.equal(1);
+            pat.toString().should.equal('[a ^]');
         });
 
         it('should preserve timing in sequences: Chorus = b [a ^, x y z]', function () {
-            generator.addSource('Chorus = b [a ^, x y z]').buildPattern('Chorus').flatten()
+            generator.addSource('Chorus = b [a ^, x y z]').buildPattern('Chorus')
                      .toString().should.equal('[b ^ ^ a ^ ^ ^ ^ ^, . ^ ^ x ^ y ^ z ^]');
         });
 
@@ -63,12 +61,12 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
                 .addLine('Am = [a, c, e]')
                 .addLine('Twice = Am Am')
             ;
-            generator.buildPattern('Twice').flatten().toString().should.equal('[a a, c c, e e]');
+            generator.buildPattern('Twice').toString().should.equal('[a a, c c, e e]');
         });
 
         it('should understand a multiline input', function () {
             generator.addSource('Am = [a, c, e]\nTwice = Am Am');
-            generator.buildPattern('Twice').flatten().toString().should.equal('[a a, c c, e e]');
+            generator.buildPattern('Twice').toString().should.equal('[a a, c c, e e]');
         });
 
         it('should allow multiple tracks to be defined', function () {
@@ -80,8 +78,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
             ;
 
             var song = generator.buildSong();
-            song.tracks.length.should.equal(2);
-            song.tracks[0].name.should.equal('instrument');
+            song.listTrackNames().should.include.members(['master', 'instrument']);
         });
 
         it('should allow multiple tracks to be defined - track should propagate', function () {
@@ -92,8 +89,7 @@ define(['chai', 'lib/song-generator'], function (chai, songGenerator) {
                 .addSource('@song = XX')
             ;
             var song = generator.buildSong();
-            song.tracks.length.should.equal(2);
-            song.tracks[1].name.should.equal('instrument');
+            song.listTrackNames().should.include.members(['master', 'instrument']);
         });
 
         it('should tell me which is the @song pattern when defined', function () {

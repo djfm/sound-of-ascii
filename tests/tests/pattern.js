@@ -2,110 +2,194 @@
 
 define(['underscore', 'chai', 'lib/pattern'], function (_, chai, pattern) {
 
-    var Pattern = pattern.Pattern;
+    describe('A NotePattern', function () {
+        it('should be iterated over', function () {
+            var pat = new pattern.NotePattern('tralala');
+            pat.control.velocity = 42;
 
-    var c, e, g, C, CC;
+            var unitOfTime = 0.25;
+            var start = 0;
+            var duration = 1;
 
-    beforeEach(function () {
-        c = new Pattern('atom', 'c');
-        e = new Pattern('atom', 'e');
-        g = new Pattern('atom', 'g');
-        C = new Pattern('sum', c, e, g);
-        CC = new Pattern('seq', C, C);
-    });
-
-    describe('Pattern construction', function () {
-        it('should accept a `sum` kind and child patterns', function () {
-            C.kind.should.equal('sum');
-            C.children.should.deep.equal([c, e, g]);
+            pat.getNotes(unitOfTime, start, duration).should.deep.equal([
+                [0, 0.25, 'tralala', {velocity: 42}]
+            ]);
         });
 
-        it('should accept a `seq` kind and child patterns', function () {
-            CC.kind.should.equal('seq');
-            CC.children.should.deep.equal([C, C]);
-        });
-
-        it('should reject any other kind', function () {
-            chai.expect(function () {
-                new Pattern('something', c, e, g);
-            }).to.throw();
+        it('should have an absolute duration equal to its sustain', function () {
+            var pat = new pattern.NotePattern('tralala');
+            pat.sustain = 4;
+            pat.getAbsoluteDuration().should.equal(4);
         });
     });
 
-    describe('Pattern description', function () {
-        it('should take duration into account: if c is an atom of duration 2, it is displayed as "c ^"', function () {
-            var pat = new Pattern('atom', 'c');
-            pat.sustain = 2;
-            pat.toString().should.equal('c ^');
+    describe('A SeqPattern', function () {
+        it('should be iterated over', function () {
+            var pat = new pattern.NotePattern('tralala');
+            pat.control.velocity = 42;
+
+            var seq = new pattern.SeqPattern(pat, pat);
+
+            var unitOfTime = 0.25;
+            var start = 0;
+            var duration = 1;
+
+            seq.getNotes(unitOfTime, start, duration).should.deep.equal([
+                [0, 0.125, 'tralala', {velocity: 42}],
+                [0.125, 0.125, 'tralala', {velocity: 42}]
+            ]);
+        });
+
+        it('should be iterated over, taking sustain into account', function () {
+            var a = new pattern.NotePattern('a');
+            var b = new pattern.NotePattern('b');
+
+            a.sustain = 2;
+            b.sustain = 1;
+
+            var seq = new pattern.SeqPattern(a, b);
+
+            var unitOfTime = 1;
+            var start = 0;
+            var duration = 3;
+
+            seq.getNotes(unitOfTime, start, duration).should.deep.equal([
+                [0, 2, 'a', {}],
+                [2, 1, 'b', {}]
+            ]);
+        });
+
+        it('should have an absolute duration that is the sum of the duration of its components weighted by the sustain', function () {
+            var a = new pattern.NotePattern('a');
+            var b = new pattern.NotePattern('b');
+
+            a.sustain = 2;
+            b.sustain = 1;
+
+            var seq = new pattern.SeqPattern(a, b);
+            seq.sustain = 4;
+
+            seq.getAbsoluteDuration().should.equal(12);
         });
     });
 
-    describe('Pattern flattening', function () {
-        it('should flatten an atom: c => [c]', function () {
-            var flat = c.flatten();
-            flat.toString().should.equal('[c]');
+    describe('A SumPattern', function () {
+        it('should be iterated over', function () {
+            var a = new pattern.NotePattern('a');
+            var b = new pattern.NotePattern('b');
+
+            a.sustain = 2;
+            b.sustain = 1;
+
+            var seq = new pattern.SumPattern(a, b);
+
+            var unitOfTime = 1;
+            var start = 1;
+            var duration = 3;
+
+            seq.getNotes(unitOfTime, start, duration).should.deep.equal([
+                [1, 3, 'a', {}],
+                [1, 3, 'b', {}]
+            ]);
         });
 
-        it('should turn a trivial sum of atoms into a sum of sequence of atoms: [c, e, g] => [c, e, g]', function () {
-            var flat = C.flatten();
-            flat.kind.should.equal('sum');
-            flat.children.length.should.equal(3);
-            _.each(flat.children, function (child) {
-                child.kind.should.equal('seq');
-            });
-            flat.toString().should.equal('[c, e, g]');
-        });
+        it('should have an absolute duration that is determined by the primary (= first) pattern weighted by the sustain', function () {
+            var a = new pattern.NotePattern('a');
+            var b = new pattern.NotePattern('b');
 
-        it('should add empty lines when number of tracks of two consecutive patterns differ: g [c, e] => [g c, . e] and [c, e] g => [c g, e .]', function () {
-            var pat = new Pattern('seq',
-                g,
-                new Pattern('sum', c, e)
-            );
-            pat.flatten().toString().should.equal('[g c, . e]');
+            a.sustain = 2;
+            b.sustain = 1;
 
-            var pat = new Pattern('seq',
-                new Pattern('sum', c, e),
-                g
-            );
-            pat.flatten().toString().should.equal('[c g, e .]');
-        });
+            var seq = new pattern.SumPattern(a, b);
+            seq.sustain = 3;
 
-        it('[[c, e, g], [c, e, g]] => [c, e, g, c, e, g]', function () {
-            var pat = new Pattern('sum', C, C);
-            pat.flatten().toString().should.equal('[c, e, g, c, e, g]');
-        });
-
-        it('[c, e g]=> [c ^, e g]', function () {
-            var pat = new Pattern('sum', c, new Pattern('seq', e, g));
-            pat.flatten().toString().should.equal('[c ^, e g]');
-        });
-
-        it('should flatten a seq of sums: [c, e, g] [c, e, g] => [c c, e e, g g]', function () {
-            var flat = CC.flatten();
-            flat.duration().should.equal(2);
-            flat.toString().should.equal('[c c, e e, g g]');
-        });
-
-        it('should make summed patterns the same length: [c e g, c] => [c e g, c ^ ^]', function () {
-            var flat = new Pattern('sum', new Pattern('seq', c, e, g), c).flatten();
-            flat.toString().should.equal('[c e g, c ^ ^]');
-            flat.duration().should.equal(3);
-        });
-
-        it('should make summed patterns the same length: [c e g, c e g c] => [c ^ ^ ^ e ^ ^ ^ g ^ ^ ^, c ^ ^ e ^ ^ g ^ ^ c ^ ^]', function () {
-            var flat = new Pattern(
-                'sum',
-                new Pattern('seq', c, e, g),
-                new Pattern('seq', c, e, g, c)
-            ).flatten();
-            flat.toString().should.equal('[c ^ ^ ^ e ^ ^ ^ g ^ ^ ^, c ^ ^ e ^ ^ g ^ ^ c ^ ^]');
-        });
-
-        it('should use sustain to adjust pattern lengths: C with sustain 2 => [c ^, e ^, g ^]', function () {
-            var sustainedC = _.clone(C);
-            sustainedC.sustain = 2;
-            sustainedC.flatten().toString().should.equal('[c ^, e ^, g ^]');
+            seq.getAbsoluteDuration().should.equal(6);
         });
     });
 
+    function notes (pat) {
+        return pat.getNotes(1, 0, pat.getAbsoluteDuration());
+    }
+
+    describe('Any pattern', function () {
+        it('should be rendered as a text representation to make debugging easy', function () {
+
+            var c = new pattern.NotePattern('c');
+            var g2 = new pattern.NotePattern('g');
+            g2.sustain = 2;
+            var silence = new pattern.NotePattern('.');
+            var e = new pattern.NotePattern('e');
+
+            var cc = new pattern.SeqPattern(c, c);
+            var ccg2 = new pattern.SeqPattern(cc, g2);
+
+            var silenceAndE = new pattern.SeqPattern(silence, e);
+
+            var pat = new pattern.SumPattern(ccg2, silenceAndE);
+
+            c.toString().should.equal('[c]');
+
+            notes(cc).should.deep.include.members([
+                [0, 1, 'c', {}],
+                [1, 1, 'c', {}]
+            ]);
+
+            cc.toString().should.equal('[c c]');
+
+            notes(g2).should.deep.include.members([
+                [0, 2, 'g', {}]
+            ]);
+
+            g2.toString().should.equal('[g ^]');
+
+            notes(ccg2).should.deep.include.members([
+                [0, 1, 'c', {}],
+                [1, 1, 'c', {}],
+                [2, 2, 'g', {}]
+            ]);
+
+            ccg2.toString().should.equal('[c c g ^]');
+
+            notes(pat).should.deep.include.members([
+                [0, 1, 'c', {}],
+                [1, 1, 'c', {}],
+                [2, 2, 'g', {}],
+                [0, 2, '.', {}],
+                [2, 2, 'e', {}]
+            ]);
+
+            pat.toString().should.equal('[c c g ^, . ^ e ^]');
+
+            var g2e = new pattern.SumPattern(g2, e);
+            g2e.toString().should.equal('[g ^, e ^]');
+
+            var noteThenSum = new pattern.SeqPattern(c, g2e);
+            noteThenSum.toString().should.equal('[c g ^, . e ^]');
+
+        });
+
+        it('should adjust relative durations when toString is called so that the representation is correct', function () {
+            var a2 = new pattern.NotePattern('a');
+            a2.sustain = 2;
+            var x = new pattern.NotePattern('x');
+            var y = new pattern.NotePattern('y');
+            var z = new pattern.NotePattern('z');
+
+            var seq = new pattern.SeqPattern(x, new pattern.SeqPattern(y, z));
+            var sum = new pattern.SumPattern(a2, seq);
+
+            sum.toString().should.equal('[a ^ ^ ^ ^ ^, x ^ y ^ z ^]');
+        });
+
+        it('should list tracknames', function () {
+            var a = new pattern.NotePattern('a');
+            a.control.trackName = 'some-track';
+            a.listTrackNames().should.deep.equal(['some-track']);
+        });
+
+        it('shoud have a default track called "master"', function () {
+            var a = new pattern.NotePattern('a');
+            a.listTrackNames().should.deep.equal(['master']);
+        });
+    });
 });

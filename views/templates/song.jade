@@ -1,17 +1,2 @@
 .compiled-song
-    each track in song.tracks
-        .track
-            h3= track.name
-            each degree in track.degrees
-                .degree
-                    span.degree-name= degree.name
-                    each slot in degree.slots
-                        - var o = 0
-                        while o < slot.tOffset
-                            span.fill &nbsp;
-                            - o++
-                        span.slot
-                            - var n = 0
-                            while n < slot.duration()
-                                span.fill &nbsp;
-                                - n++
+    canvas
