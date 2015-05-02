@@ -57,10 +57,12 @@ Verse_B = :kick a*4 f*4 c*4 g*4
 Verse = [Verse_A, Verse_B]
 
 # I'll add a bridge too:
-Bridge = [:supernova Am*16, :kick a*32]
+Bridge = [:supernova Am*16, :kick a*32, :erazzor [., f]]
+
+Melody1 = [[., c c, c1 e1 c1 e1] [., a a, f1 a1 f1 a1] [., g g, e1 g1 e1 g1] [., b, g1 d1 g1 d1]]
 
 # And a chorus:
-Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [., g1 d1 g1 d1]]]
+Chorus = [Verse, :erazzor Melody1]
 
 # You might find this part strange: [., c1 e1 c1 e1]
 # Have no fear! When using the square brackets (or "sums" as I call these patterns),
@@ -70,7 +72,14 @@ Chorus = [Verse, :erazzor [[., c1 e1 c1 e1] [., f1 a1 f1 a1] [., e1 g1 e1 g1] [.
 # That is, c1 e1 c1 e1 are all quarter notes if . is a full note.
 
 # Time to put everything together:
-Song = Verse Chorus Verse Bridge Chorus Verse Chorus
+Song = Verse Chorus PostChorus Bridge Chorus Verse2 Chorus Verse2 Outro
+Outro = [:erazzor a ^ ^ ^ ^ ^ ^ ^, :kick a, :supernova c*8]
+
+Melody2 = [[., a e] f [., e g] [., d]]
+Verse2 = [Verse_A, Verse_B, :erazzor Melody2]
+
+PostChorusMelody = a e
+PostChorus = [Verse_A, Verse_B, :erazzor PostChorusMelody]
 
 # And tell Sound-Of-Ascii what we want to play (the Start symbol of the grammar :))
 @song = Song
