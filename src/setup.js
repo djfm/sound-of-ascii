@@ -10,6 +10,7 @@ requirejs.config({
         jquery: 'src/jquery',
         q: 'node_modules/q/q',
         templates: 'views/templates',
-        chai: 'node_modules/chai/chai'
+        chai: 'node_modules/chai/chai',
+        cm: 'node_modules/codemirror'
     }
 });

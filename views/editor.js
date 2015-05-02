@@ -2,6 +2,8 @@
 
 define([
         'jquery',
+        'cm/lib/codemirror',
+        'src/aascii-codemirror-mode',
         'views/view',
         'jade!templates/editor',
         'views/song',
@@ -9,7 +11,7 @@ define([
         'lib/audio/player',
         'views/player',
         'lib/song'
-    ], function ($, View, template, SongView, songGenerator, playerLib, PlayerView) {
+    ], function ($, codemirror, mode, View, template, SongView, songGenerator, playerLib, PlayerView) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
@@ -66,9 +68,14 @@ define([
             }
         },
         afterRender: function loadDefaultSong () {
+            this.codemirror = codemirror.fromTextArea(this.$('.source-code').get(0), {
+                lineNumbers: true,
+                mode: 'aascii'
+            });
+
             var that = this;
             $.get('examples/save-tonight-multiple-tracks.aascii').then(function (data) {
-                $('textarea.source-code').val(data);
+                that.codemirror.setValue(data);
                 that.onSourceChanged(data);
             });
         }
