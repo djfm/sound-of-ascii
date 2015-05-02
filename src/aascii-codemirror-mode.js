@@ -10,6 +10,8 @@ define(['cm/lib/codemirror'], function (CodeMirror) {
         function token (stream) {
             if (stream.eat(/[\[\](),]/)) {
                 return 'bracket';
+            } else if (stream.eat(/[\^.]/)) {
+                return 'variable-2';
             } else if (stream.match(/^\s*#.*?$/)) {
                 return 'comment';
             } else if (stream.match(/@\w+/)){
