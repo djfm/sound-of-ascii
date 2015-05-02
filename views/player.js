@@ -22,6 +22,9 @@ define([
         },
         reset: function resetPlayerView () {
             if (this.player) {
+                if (this.gain) {
+                    this.gain.disconnect();
+                }
                 // release resources
                 this.player.reset();
             } else {
@@ -33,7 +36,7 @@ define([
 
             var ac = this.player.getAudioContext();
 
-            var gain = ac.createGain();
+            var gain = this.gain = ac.createGain();
             gain.gain.value = 0.5;
 
             gain.connect(ac.destination);
