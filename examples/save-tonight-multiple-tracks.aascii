@@ -87,4 +87,4 @@ PostChorus = [Verse_A, Verse_B, :erazzor PostChorusMelody]
 # Finally, we say that the Am_Measure part should last 1 second.
 # All of the notes durations are deduced from just one @duration annotation that
 # sets the duration for a part of the song:
-@duration(Am_Measure) = 1
+@duration(Am_Measure) = 1.7
