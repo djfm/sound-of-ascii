@@ -25,3 +25,7 @@ div.compiled-song {
 .label-bigger {
     padding: 10px 12px;
 }
+
+.CodeMirror {
+    height: 400px;
+}
