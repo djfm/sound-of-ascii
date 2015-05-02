@@ -17,13 +17,6 @@ define([
             this.template = template;
         },
         events: {
-            'keyup .source-code': function onEditorTextareaKeyup (e) {
-                var text = this.$(e.target).val().trim();
-                if (text !== this.text) {
-                    this.text = text;
-                    this.onSourceChanged(this.text);
-                }
-            }
         },
         onSourceChanged: function onSourceChanged (text) {
             this.songGenerator = new songGenerator.SongGenerator();
@@ -74,9 +67,13 @@ define([
             });
 
             var that = this;
+
+            this.codemirror.on('change', function () {
+                that.onSourceChanged(that.codemirror.getValue());
+            });
+
             $.get('examples/save-tonight-multiple-tracks.aascii').then(function (data) {
                 that.codemirror.setValue(data);
-                that.onSourceChanged(data);
             });
         }
     });
