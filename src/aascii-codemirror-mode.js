@@ -8,14 +8,17 @@ define(['cm/lib/codemirror'], function (CodeMirror) {
         }
 
         function token (stream) {
-
-            if (stream.match(/^\s*#.*?$/)) {
+            if (stream.eat(/[\[\](),]/)) {
+                return 'bracket';
+            } else if (stream.match(/^\s*#.*?$/)) {
                 return 'comment';
+            } else if (stream.match(/@\w+/)){
+                return 'keyword';
             } else if (stream.match(/^\s*([^=]+)=/)) {
                 stream.backUp(1);
                 return 'def';
             } else {
-                stream.skipToEnd();
+                stream.next();
                 return null;
             }
         }
