@@ -1,0 +1,15 @@
+<html>
+    <script>
+        var worker = new Worker('worker.js');
+
+        var ac = new AudioContext();
+        var buffer = ac.createBuffer(2, 10000, 44100);
+
+        worker.postMessage(function test () {
+            return 42;
+        });
+        worker.onmessage = function (e) {
+            console.log(e.data);
+        };
+    </script>
+</html>

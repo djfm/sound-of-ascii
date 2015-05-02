@@ -39,17 +39,22 @@ define([
             gain.connect(ac.destination);
 
             var withEachNote = (function withEachNote (callback) {
+
+                var delay = 0;
+
                 this.song.forEachNote(this.song.unitOfTime, 0, this.song.absoluteDuration, function (sStart, sDuration, noteStr, control) {
                     var instrument = instrumentLoader.get(control.trackName);
                     var note = solfege.parseNote(noteStr);
                     if (note.freq > 0) {
                         note.freq *= 16; // adjust freq by 4 octaves
-                        callback(sStart, sStart + sDuration, note, control, instrument);
+                        callback(sStart + delay, sStart + sDuration + delay, note, control, instrument);
                     }
                 });
             }).bind(this);
 
             var promises = [];
+
+            this.$('.loading').show();
 
             withEachNote(function warmUp (sStart, sStop, note, control, instrument) {
                 if (instrument.warmUp) {
@@ -57,7 +62,10 @@ define([
                 }
             });
 
+            var that = this;
+
             q.all(promises).then(function () {
+                that.$('.loading').hide();
                 withEachNote(function playNotes (sStart, sStop, note, control, instrument) {
                     instrument.playNote(ac, gain, note, sStart, sStop);
                 });
