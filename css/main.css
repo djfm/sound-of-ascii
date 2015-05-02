@@ -7,6 +7,10 @@
     overflow: auto;
 }
 
+.compiled-song canvas {
+    width: 100%;
+}
+
 .glyphicon-refresh-animate {
     -animation: spin 1s infinite linear;
     -webkit-animation: spin2 1s infinite linear;
