@@ -11,6 +11,9 @@ define(['cm/lib/codemirror'], function (CodeMirror) {
 
             if (stream.match(/^\s*#.*?$/)) {
                 return 'comment';
+            } else if (stream.match(/^\s*([^=]+)=/)) {
+                stream.backUp(1);
+                return 'def';
             } else {
                 stream.skipToEnd();
                 return null;
