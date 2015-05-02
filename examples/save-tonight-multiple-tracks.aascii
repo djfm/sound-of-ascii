@@ -19,7 +19,8 @@ C  = [c, e, g, e1]
 G  = [g, b, d, b1]
 
 # A few explanations on the 4 lines above:
-#   - We just defined 4 patterns, whose names appear to the left of the "=" sign. We will refer to them later from other patterns.
+#   - We just defined 4 patterns, whose names appear to the left of the "=" sign.
+#     We will refer to them later from other patterns.
 #   - Lower-case letters stand for single music notes. You can write a# for "a sharp", a- for "a flat".
 #   - When you write comma-separated lists inside square brackets
 #     it tells the engine to play all the different parts at the same time (this is how we build chords)
