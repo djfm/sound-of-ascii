@@ -19,6 +19,10 @@ define(['cm/lib/codemirror'], function (CodeMirror) {
                 return 'def';
             } else if (stream.match(/^:(\w[\w\-]*)/)) {
                 return 'atom';
+            } else if (stream.match(/\d+/)) {
+                return 'number';
+            } else if (stream.match(/^([\w][\w\.'/#]*)/)) {
+                return 'variable';
             } else {
                 stream.next();
                 return null;
