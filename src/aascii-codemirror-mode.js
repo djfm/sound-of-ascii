@@ -1,6 +1,6 @@
 /* global define */
 
-define(['cm/lib/codemirror'], function (CodeMirror) {
+define(['cm/lib/codemirror', 'lib/parser'], function (CodeMirror, parser) {
     CodeMirror.defineMode('aascii', function (config) {
 
         function startState () {
@@ -8,6 +8,16 @@ define(['cm/lib/codemirror'], function (CodeMirror) {
         }
 
         function token (stream) {
+
+            if (stream.sol()) {
+                try {
+                    parser.parseLine(stream.match(/^.*?$/, false)[0]);
+                } catch (e) {
+                    stream.skipToEnd();
+                    return 'error';
+                }
+            }
+
             if (stream.eat(/[\[\](),]/)) {
                 return 'bracket';
             } else if (stream.eat(/[\^.]/)) {

@@ -34,7 +34,7 @@ define([
             if (!message) {
                 this.$('.error-feedback').html('&nbsp;');
             } else {
-                this.$('.error-feedback').html('<div>' + message + '</div>');
+                this.$('.error-feedback').html('<span class="label label-danger">' + message + '</span>');
             }
         },
         onSongCompiled: function onSongCompiled (song) {

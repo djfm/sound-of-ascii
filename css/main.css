@@ -1,6 +1,6 @@
 .editor .error-feedback {
     min-height: 30px;
-    color: red;
+    margin-top: 20px;
 }
 
 div.compiled-song {
