@@ -1,3 +1,11 @@
+#main-view {
+    padding: 0px 20px;
+}
+
+h2 {
+    font-size: 1.7em;
+}
+
 .editor .error-feedback {
     min-height: 30px;
     margin-top: 20px;
@@ -31,5 +39,5 @@
 }
 
 .CodeMirror {
-    height: 400px;
+    height: auto;
 }
