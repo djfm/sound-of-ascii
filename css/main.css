@@ -22,9 +22,9 @@ h2 {
 }
 
 .editor .song-title {
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 2px;
+    color: #444;
+    font-size: 1.2em;
+    text-decoration: underline;
 }
 
 .compiled-song {

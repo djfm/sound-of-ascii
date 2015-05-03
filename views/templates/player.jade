@@ -1,16 +1,14 @@
 .player
-    button.btn.btn-default.play-button(type="button")
-        span.glyphicon.glyphicon-play
-        span &nbsp; play!
-    span &nbsp;
-    button.btn.btn-default.stop-button(type="button" disabled=true)
-        span.glyphicon.glyphicon-stop
-        span &nbsp; stop
-    span &nbsp;
-    span.label.label-warning.label-bigger.loading(style="display:none")
-        span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+    div.player-controls
+        button.btn.btn-default.play-button(type="button")
+            span.glyphicon.glyphicon-play
+            span &nbsp; play!
         span &nbsp;
-        span Loading...
-    br
-    br 
-    
+        button.btn.btn-default.stop-button(type="button" disabled=true)
+            span.glyphicon.glyphicon-stop
+            span &nbsp; stop
+        span &nbsp;
+        span.label.label-warning.label-bigger.loading(style="display:none")
+            span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+            span &nbsp;
+            span Loading...

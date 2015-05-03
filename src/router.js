@@ -11,7 +11,7 @@ define([
     var Router = bb.Router.extend({
         routes: {
             '': 'editor',
-            'edit': 'editor',
+            'edit(/*path)': 'editor',
             'home': 'home',
             'scratch': scratch()
         },
@@ -29,12 +29,14 @@ define([
             $('#main-view').html(view.el);
 
             view.afterMount(wasRestored);
+
+            return view;
         },
         home: function () {
             this.mount('homeView', HomeView);
         },
-        editor: function displayEditorView () {
-            this.mount('editorView', EditorView);
+        editor: function displayEditorView (songId) {
+            this.mount('editorView', EditorView).load(songId);
         }
     });
 

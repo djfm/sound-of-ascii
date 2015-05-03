@@ -18,7 +18,11 @@ define([
         },
         events: {
         },
+        afterRender : function () {
+            this.setupCodeMirror();
+        },
         onSourceChanged: function onSourceChanged (text) {
+            this.dirty = true;
             this.songGenerator = new songGenerator.SongGenerator();
             try {
                 this.songGenerator.addSource(text);
@@ -43,7 +47,7 @@ define([
                 this.playerView.reset();
             } else {
                 this.playerView = new PlayerView({
-                    el: this.$('.player-root'),
+                    el: $('.player-root'),
                 });
             }
 
@@ -60,7 +64,11 @@ define([
                 songView.render();
             }
         },
-        afterRender: function initCodeMirrorAndloadDefaultSong () {
+        setupCodeMirror: function setupCodeMirror () {
+            if (this.codemirror) {
+                return;
+            }
+
             this.codemirror = codemirror.fromTextArea(this.$('.source-code').get(0), {
                 lineNumbers: true,
                 mode: 'aascii'
@@ -71,17 +79,25 @@ define([
             this.codemirror.on('change', function () {
                 that.onSourceChanged(that.codemirror.getValue());
             });
-
-            $.get('examples/save-tonight-multiple-tracks.aascii').then(function (data) {
-                that.loadSong({
-                    title: 'AmFCG Demo',
-                    source: data
-                });
-            });
         },
         loadSong: function loadSong (song) {
             this.codemirror.setValue(song.source);
             this.$('.song-title').html(song.title || '(unnamed song)');
+        },
+        load: function load (songId) {
+            this.setupCodeMirror();
+
+            songId = songId || 'examples/save-tonight-multiple-tracks.aascii';
+
+            if (!this.dirty) {
+                var that = this;
+                $.get(songId).then(function (data) {
+                    that.loadSong({
+                        title: songId,
+                        source: data
+                    });
+                });
+            }
         },
         afterMount: function () {
             if (this.playerView) {
