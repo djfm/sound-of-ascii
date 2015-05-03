@@ -18,6 +18,14 @@ define(['underscore', 'lib/solfege', 'views/view', 'jade!views/templates/song'],
         this.render = function renderSong (canvas) {
             canvas.width = this.getWidth();
             canvas.height = this.getHeight();
+
+            var minw = 1200;
+            if (canvas.width < minw) {
+                var scale = minw/canvas.width;
+                canvas.width *= scale;
+                canvas.height *= scale;
+            }
+
             this.tracks.render(canvas, 0, 0);
         };
 
