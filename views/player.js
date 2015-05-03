@@ -20,6 +20,9 @@ define([
             'click .play-button': 'play',
             'click .stop-button': 'stop'
         },
+        afterRender: function () {
+            this.$('.stop-button').attr('disabled', !this.playing);
+        },
         reset: function resetPlayerView () {
             if (this.player) {
                 if (this.gain) {
@@ -31,6 +34,9 @@ define([
                 this.player = new audio.Player();
             }
         },
+        songProvider: function () {
+            return null;
+        },
         play: function play () {
             this.reset();
 
@@ -41,11 +47,19 @@ define([
 
             gain.connect(ac.destination);
 
+            var song = this.songProvider();
+
+            if (!song) {
+                return;
+            }
+
+            this.playing = true;
+
             var withEachNote = (function withEachNote (callback) {
 
                 var delay = 0;
 
-                this.song.forEachNote(this.song.unitOfTime, 0, this.song.absoluteDuration, function (sStart, sDuration, noteStr, control) {
+                song.forEachNote(song.unitOfTime, 0, song.absoluteDuration, function (sStart, sDuration, noteStr, control) {
                     var instrument = instrumentLoader.get(control.trackName);
                     var note = solfege.parseNote(noteStr);
                     if (note.freq > 0) {
@@ -78,6 +92,7 @@ define([
         },
         stop: function stop () {
             this.reset();
+            this.playing = false;
             this.$('.stop-button').attr('disabled', true);
         }
     });
