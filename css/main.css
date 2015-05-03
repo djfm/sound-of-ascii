@@ -47,6 +47,12 @@ h2 {
     overflow: auto;
 }
 
+@media (min-width: 1200px) {
+    .compiled-song {
+        position: fixed;
+    }
+}
+
 .compiled-song canvas {
     width: 100%;
 }
