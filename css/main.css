@@ -19,6 +19,10 @@
     height: 20px;
 }
 
+body {
+    overflow-y: scroll;
+}
+
 h2 {
     font-size: 1.7em;
 }
