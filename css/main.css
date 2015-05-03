@@ -7,6 +7,10 @@
     margin-bottom: 0px;
 }
 
+#main-nav .notifications {
+    width: 50%;
+}
+
 h2 {
     font-size: 1.7em;
 }

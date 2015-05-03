@@ -10,8 +10,8 @@ define([
         'lib/song-generator',
         'lib/audio/player',
         'views/player',
-        'lib/song'
-    ], function ($, codemirror, mode, View, template, SongView, songGenerator, playerLib, PlayerView) {
+        'state/notifications'
+    ], function ($, codemirror, mode, View, template, SongView, songGenerator, playerLib, PlayerView, notifications) {
     return View.extend({
         initialize: function initializeEditorView () {
             this.template = template;
@@ -36,9 +36,9 @@ define([
         },
         errorFeedback: function errorFeedback (message) {
             if (!message) {
-                this.$('.error-feedback').html('&nbsp;');
+                notifications.clear();
             } else {
-                this.$('.error-feedback').html('<span class="label label-danger">' + message + '</span>');
+                notifications.error(message);
             }
         },
         onSongCompiled: function onSongCompiled (song) {
