@@ -30,7 +30,7 @@ define([
                 this.onSongCompiled(song);
                 this.errorFeedback(null); // clear previous errors
             } catch (e) {
-                this.errorFeedback(e);
+                this.errorFeedback(e.message || e);
                 this.onSongCompiled(null); // clear previous result
             }
         },
