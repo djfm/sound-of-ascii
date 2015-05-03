@@ -15,8 +15,12 @@
     </head>
     <body>
         <script>
-            requirejs(['src/router'], function (router) {
-                router.start();
+            requirejs(['jquery', 'views/layout', 'src/router'], function ($, LayoutView, router) {
+                var layoutView = new LayoutView();
+                layoutView.on('fully-rendered', function startRouter () {
+                    router.start();
+                });
+                $('body').html(layoutView.render().el);
             });
         </script>
     </body>

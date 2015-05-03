@@ -1,19 +1,9 @@
 /* global define */
 
-define(['views/view', 'jade!templates/home', 'views/editor'], function (View, homeTemplate, EditorView) {
+define(['views/view', 'jade!templates/home'], function (View, homeTemplate) {
     return View.extend({
         initialize: function initializeHomeView () {
             this.template = homeTemplate;
-        },
-        getRenderData: function () {
-            return {};
-        },
-        afterRender: function () {
-
-            this.editorView = new EditorView({el: this.$('#main-view')});
-            this.editorView.render();
-
-            return this;
         }
     });
 });

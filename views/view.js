@@ -3,7 +3,6 @@
 define(['underscore', 'backbone'], function (_, bb) {
     return bb.View.extend({
         initialize: function () {
-
         },
         render: function renderHomeView () {
             this.el.innerHTML = this.template(this.getRenderData());
@@ -14,7 +13,11 @@ define(['underscore', 'backbone'], function (_, bb) {
             return {};
         },
         afterRender: function () {
+            this.trigger('fully-rendered', this);
             return this;
+        },
+        afterMount: function (/* wasRestored: bool */) {
+
         }
     });
 });

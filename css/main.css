@@ -56,3 +56,16 @@ h2 {
 .CodeMirror {
     height: auto;
 }
+
+.blog {
+  font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif;
+  letter-spacing: .01rem;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+.blog h2, .blog h3 {
+    color: black;
+}

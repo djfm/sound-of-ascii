@@ -82,6 +82,11 @@ define([
         loadSong: function loadSong (song) {
             this.codemirror.setValue(song.source);
             this.$('.song-title').html(song.title || '(unnamed song)');
+        },
+        afterMount: function () {
+            if (this.playerView) {
+                this.playerView.delegateEvents();
+            }
         }
 
     });
