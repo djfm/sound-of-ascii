@@ -10,7 +10,7 @@ define(['views/view', 'jade!templates/home', 'views/editor'], function (View, ho
         },
         afterRender: function () {
 
-            this.editorView = new EditorView({el: this.$('#editor-view')});
+            this.editorView = new EditorView({el: this.$('#main-view')});
             this.editorView.render();
 
             return this;
