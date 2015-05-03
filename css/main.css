@@ -10,9 +10,20 @@ h2 {
     font-size: 1.7em;
 }
 
+.valign-with-h2 {
+    padding-top: 20px;
+    line-height: 2em;
+}
+
 .editor .error-feedback {
     min-height: 30px;
     margin-top: 20px;
+}
+
+.editor .song-title {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 2px;
 }
 
 .compiled-song {

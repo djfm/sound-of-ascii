@@ -60,7 +60,7 @@ define([
                 songView.render();
             }
         },
-        afterRender: function loadDefaultSong () {
+        afterRender: function initCodeMirrorAndloadDefaultSong () {
             this.codemirror = codemirror.fromTextArea(this.$('.source-code').get(0), {
                 lineNumbers: true,
                 mode: 'aascii'
@@ -73,8 +73,16 @@ define([
             });
 
             $.get('examples/save-tonight-multiple-tracks.aascii').then(function (data) {
-                that.codemirror.setValue(data);
+                that.loadSong({
+                    title: 'AmFCG Demo',
+                    source: data
+                });
             });
+        },
+        loadSong: function loadSong (song) {
+            this.codemirror.setValue(song.source);
+            this.$('.song-title').html(song.title || '(unnamed song)');
         }
+
     });
 });
