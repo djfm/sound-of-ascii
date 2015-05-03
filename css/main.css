@@ -11,6 +11,14 @@
     width: 50%;
 }
 
+#main-nav .fork-me {
+    margin-right: 25px;
+}
+
+#main-nav .fork-me img {
+    height: 20px;
+}
+
 h2 {
     font-size: 1.7em;
 }
