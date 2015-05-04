@@ -17,14 +17,14 @@ define(['lib/workforce'], function (workforce) {
             workforce.count().should.equal(4);
         });
         it('should notify caller of errors', function (done) {
-            workforce.hire('tests/workforce/exampleModule::oops').fail(function (err) {
+            workforce.hire('tests/workforce/exampleModule::oops').then(function () {
+                done(new Error('The call should not have been successful.'));
+            }).fail(function (err) {
                 if (err.message === 'Oops!') {
                     done();
                 } else {
                     done(new Error('Did not get the expected error message, got `' + err.message + '` instead of `Oops!`.'));
                 }
-            }).then(function () {
-                done(new Error('The call should not have been successful.'));
             });
         });
     });
